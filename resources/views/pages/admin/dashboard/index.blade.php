@@ -20,7 +20,7 @@
                                     class="text-white mb-0"
                                     style="opacity: 0.9;"
                                 >
-                                    Sistem Informasi Manajemen Perusahaan - Dashboard Administrasi
+                                    Sistem Informasi Manajemen PKK - Dashboard Administrasi
                                 </p>
                             </div>
                             <div class="col-md-4 text-end">

@@ -58,9 +58,20 @@ class UserSeeder extends Seeder
             $villages = Village::where('district_id', $district->id)->get();
 
             foreach ($villages as $village) {
+                // Generate email unik
+                $baseEmail = 'desa.' . strtolower(str_replace(' ', '', $village->name));
+                $email = $baseEmail . '@gmail.com';
+                $counter = 1;
+
+                // Cek jika email sudah ada, tambahkan angka di belakang
+                while (User::where('email', $email)->exists()) {
+                    $email = $baseEmail . $counter . '@gmail.com';
+                    $counter++;
+                }
+
                 $userDesa = User::create([
                     'name' => 'Desa ' . $village->name,
-                    'email' => 'desa.' . strtolower(str_replace(' ', '', $village->name)) . '@gmail.com',
+                    'email' => $email,
                     'password' => Hash::make('password123'),
                 ]);
 
