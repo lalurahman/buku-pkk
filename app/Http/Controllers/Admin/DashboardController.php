@@ -40,7 +40,7 @@ class DashboardController extends Controller
         $balance = $totalIncome - $totalExpense;
 
         // Recent Activities
-        $recentActivities = ActivityModel::orderBy('date', 'desc')->take(5)->get();
+        $recentActivities = ActivityModel::orderBy('start_date', 'desc')->take(5)->get();
 
         // Recent Guest Books
         $recentGuests = GuestBook::orderBy('visit_date', 'desc')->take(5)->get();

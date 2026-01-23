@@ -75,7 +75,7 @@ class DummyDataSeeder extends Seeder
         Inventory::factory(70)->create();
 
         // Create 50 Activities
-        Activity::factory(68)->create();
+        Activity::factory(5)->create();
 
         // Create 50 Guest Books
         GuestBook::factory(45)->create();

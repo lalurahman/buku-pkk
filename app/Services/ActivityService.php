@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Activity;
 use Illuminate\Support\Facades\Http;
 
 class ActivityService
@@ -17,5 +18,27 @@ class ActivityService
                 'user_agent' => request()->header('user-agent'),
             ])
             ->log($description); // keterangan aktivitas
+    }
+
+    public function createActivity($data)
+    {
+        $activity = Activity::create([
+            'title' => $data['title'],
+            'description' => $data['description'] ?? null,
+            'start_date' => $data['start_date'] ?? null,
+            'end_date' => $data['end_date'] ?? null,
+        ]);
+
+        return $activity;
+    }
+
+    public function getActivityById($id)
+    {
+        return Activity::with([
+            'subActivities',
+            'targetActivities',
+            'innovationActivities',
+            'impactActivities'
+        ])->find($id);
     }
 }

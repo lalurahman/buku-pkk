@@ -23,20 +23,12 @@ class ActivityFactory extends Factory
             'Pelatihan Kader PKK',
             'Rapat Koordinasi',
             'Lomba Memasak',
-            'Penyuluhan Kesehatan',
-            'Gotong Royong',
-            'Senam Sehat',
-            'Pelatihan Keterampilan',
-            'Bazar PKK',
-            'Pembinaan Dasawisma',
-            'Sosialisasi Program Kerja',
-            'Kunjungan Rumah',
-            'Pelatihan UMKM',
-            'Penyuluhan Gizi',
         ];
 
         return [
-            'title' => fake()->randomElement($titles),
+            // title sesuai dari titles array secara berurutan
+            'title' => $titles[$this->faker->unique()->numberBetween(0, count($titles) - 1)],
+            'description' => $this->faker->paragraph(),
             'start_date' => fake()->dateTimeBetween('-1 year', 'now'),
             'end_date' => fake()->dateTimeBetween('start_date', 'now'),
         ];

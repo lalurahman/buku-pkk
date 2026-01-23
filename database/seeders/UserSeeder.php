@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\District;
 use App\Models\Village;
+use App\Models\UserHasDistrict;
+use App\Models\UserHasVillage;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -46,6 +48,12 @@ class UserSeeder extends Seeder
 
             $userKecamatan->assignRole('District');
 
+            // Tambahkan ke user_has_districts
+            UserHasDistrict::create([
+                'user_id' => $userKecamatan->id,
+                'district_id' => $district->id,
+            ]);
+
             // get semua desa dari kecamatan ini
             $villages = Village::where('district_id', $district->id)->get();
 
@@ -57,6 +65,12 @@ class UserSeeder extends Seeder
                 ]);
 
                 $userDesa->assignRole('Village');
+
+                // Tambahkan ke user_has_villages
+                UserHasVillage::create([
+                    'user_id' => $userDesa->id,
+                    'village_id' => $village->id,
+                ]);
             }
         }
     }

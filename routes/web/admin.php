@@ -25,4 +25,22 @@ Route::prefix('administrator')
             'meeting-minutes' => MeetingMinuteController::class,
             'outgoing-letters' => OutgoingLetterController::class,
         ]);
+
+        // Activity Relations Routes
+        Route::prefix('activities/{activity}')->name('activities.')->group(function () {
+            Route::post('sub-activities', [ActivityController::class, 'storeSubActivity'])->name('sub-activities.store');
+            Route::delete('sub-activities/{subActivity}', [ActivityController::class, 'destroySubActivity'])->name('sub-activities.destroy');
+
+            Route::post('target-activities', [ActivityController::class, 'storeTargetActivity'])->name('target-activities.store');
+            Route::delete('target-activities/{targetActivity}', [ActivityController::class, 'destroyTargetActivity'])->name('target-activities.destroy');
+
+            Route::post('innovation-activities', [ActivityController::class, 'storeInnovationActivity'])->name('innovation-activities.store');
+            Route::delete('innovation-activities/{innovationActivity}', [ActivityController::class, 'destroyInnovationActivity'])->name('innovation-activities.destroy');
+
+            Route::post('impact-activities', [ActivityController::class, 'storeImpactActivity'])->name('impact-activities.store');
+            Route::delete('impact-activities/{impactActivity}', [ActivityController::class, 'destroyImpactActivity'])->name('impact-activities.destroy');
+        });
+
+        // Progress Route
+        Route::get('activities/{id}/progress', [ActivityController::class, 'progress'])->name('activities.progress');
     });

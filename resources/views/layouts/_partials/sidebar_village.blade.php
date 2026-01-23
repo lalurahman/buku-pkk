@@ -56,6 +56,16 @@
             </span>
         </li>
 
+        <li class="menu-item @if (request()->is('desa/activities*')) active @endif">
+            <a
+                href="{{ route('village.activities.index') }}"
+                class="menu-link"
+            >
+                <i class="menu-icon icon-base bx bx-user"></i>
+                <div data-i18n="Profile">Kegiatan</div>
+            </a>
+        </li>
+
         <!-- Account -->
         <li class="menu-header small">
             <span
