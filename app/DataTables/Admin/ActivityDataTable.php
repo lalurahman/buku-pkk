@@ -38,6 +38,10 @@ class ActivityDataTable extends DataTable
                     </div>
                 BLADE;
             })
+            ->editColumn('date', function ($row) {
+                // start date - end date
+                return date('d M Y', strtotime($row->start_date)) . ' - ' . date('d M Y', strtotime($row->end_date));
+            })
             ->rawColumns(['action'])
             ->setRowId('id');
     }
@@ -78,7 +82,6 @@ class ActivityDataTable extends DataTable
                 ->width(30)
                 ->addClass('text-center'),
             Column::make('title')->title('Kegiatan'),
-            Column::make('location')->title('Lokasi'),
             Column::make('date')->title('Tanggal'),
             Column::computed('action')
                 ->exportable(false)

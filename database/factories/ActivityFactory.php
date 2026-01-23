@@ -35,24 +35,10 @@ class ActivityFactory extends Factory
             'Penyuluhan Gizi',
         ];
 
-        $locations = [
-            'Balai RW 01',
-            'Balai RW 02',
-            'Aula Kelurahan',
-            'Posyandu Melati 1',
-            'Posyandu Melati 2',
-            'Posyandu Mawar',
-            'Kantor Sekretariat PKK',
-            'Lapangan Kelurahan',
-            'Gedung Serbaguna',
-            'Rumah Ketua RT',
-        ];
-
         return [
             'title' => fake()->randomElement($titles),
-            'date' => fake()->dateTimeBetween('-1 year', 'now'),
-            'location' => fake()->randomElement($locations),
-            'description' => fake()->paragraph(3),
+            'start_date' => fake()->dateTimeBetween('-1 year', 'now'),
+            'end_date' => fake()->dateTimeBetween('start_date', 'now'),
         ];
     }
 }

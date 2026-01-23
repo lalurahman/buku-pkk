@@ -10,6 +10,8 @@ return Application::configure(basePath: dirname(__DIR__))
             __DIR__ . '/../routes/web.php',
             __DIR__ . '/../routes/web/superadmin.php',
             __DIR__ . '/../routes/web/admin.php',
+            __DIR__ . '/../routes/web/district.php',
+            __DIR__ . '/../routes/web/village.php',
         ],
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
@@ -18,6 +20,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'superadmin' => \App\Http\Middleware\IsSuperadmin::class,
             'admin' => \App\Http\Middleware\IsAdmin::class,
+            'district' => \App\Http\Middleware\IsDistrict::class,
+            'village' => \App\Http\Middleware\IsVillage::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

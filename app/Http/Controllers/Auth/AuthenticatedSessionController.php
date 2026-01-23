@@ -39,7 +39,8 @@ class AuthenticatedSessionController extends Controller
         try {
             // Redirect berdasarkan role 
             $role = $this->user()->getRoleNames()->first();
-            if ($this->user()->hasRole('Superadmin')) {
+            // dd($role);
+            if ($role === 'Superadmin') {
                 $request->session()->regenerate();
                 $this->activityService->log(
                     $role,
@@ -48,7 +49,7 @@ class AuthenticatedSessionController extends Controller
                     'Login ke sistem sebagai ' . $role
                 );
                 return redirect()->intended(route('superadmin.dashboard', absolute: false));
-            } else if ($this->user()->hasRole('Admin')) {
+            } else if ($role === 'Admin') {
                 $request->session()->regenerate();
                 $this->activityService->log(
                     $role,
@@ -57,6 +58,24 @@ class AuthenticatedSessionController extends Controller
                     'Login ke sistem sebagai ' . $role
                 );
                 return redirect()->intended(route('admin.dashboard', absolute: false));
+            } else if ($role === 'District') {
+                $request->session()->regenerate();
+                $this->activityService->log(
+                    $role,
+                    $this->user()->id,
+                    'Login',
+                    'Login ke sistem sebagai ' . $role
+                );
+                return redirect()->intended(route('district.dashboard', absolute: false));
+            } else if ($role === 'Village') {
+                $request->session()->regenerate();
+                $this->activityService->log(
+                    $role,
+                    $this->user()->id,
+                    'Login',
+                    'Login ke sistem sebagai ' . $role
+                );
+                return redirect()->intended(route('village.dashboard', absolute: false));
             } else {
                 Auth::guard('web')->logout();
                 $request->session()->invalidate();
