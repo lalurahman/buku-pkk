@@ -51,25 +51,17 @@ class ProgressDataTable extends DataTable
 
                 return '<span class="badge ' . $badgeClass . ' rounded-pill">' . $percentage . '%</span>';
             })
-            ->addColumn('progress_bar', function ($row) {
-                $percentage = $row->total_activities > 0
-                    ? round(($row->completed_activities / $row->total_activities) * 100, 1)
-                    : 0;
-
-                $progressClass = 'bg-warning';
-                if ($percentage >= 100) {
-                    $progressClass = 'bg-success';
-                } elseif ($percentage >= 50) {
-                    $progressClass = 'bg-primary';
-                }
-
-                return '<div class="progress" style="height: 20px;">
-                    <div class="progress-bar ' . $progressClass . '" role="progressbar" style="width: ' . $percentage . '%;" aria-valuenow="' . $percentage . '" aria-valuemin="0" aria-valuemax="100">
-                        ' . $percentage . '%
+            ->addColumn('action', function ($row) {
+                $detailUrl = route('admin.activities.progress-detail', ['id' => request()->route('id'), 'villageId' => $row->id]);
+                return <<<BLADE
+                    <div class="d-flex justify-content-center">
+                        <a href="{$detailUrl}" class="btn btn-sm btn-outline-info me-2">
+                            Lihat Detail
+                        </a>
                     </div>
-                </div>';
+                BLADE;
             })
-            ->rawColumns(['percentage', 'progress_bar'])
+            ->rawColumns(['percentage', 'action'])
             ->setRowId('id');
     }
 
@@ -131,11 +123,11 @@ class ProgressDataTable extends DataTable
                 ->addClass('text-center')
                 ->exportable(false)
                 ->printable(false),
-            Column::computed('progress_bar')
-                ->title('Progress')
+            Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(200),
+                ->width(60)
+                ->addClass('text-center'),
         ];
     }
 

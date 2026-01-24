@@ -30,6 +30,26 @@
                 >
                     <i class="bx bx-edit me-1"></i> Edit Kegiatan
                 </a>
+                <form
+                    action="{{ route('admin.activities.destroy', $activity->id) }}"
+                    method="POST"
+                    class="delete-activity-form"
+                    data-title="{{ $activity->title }}"
+                    data-sub-activities="{{ $activity->subActivities->count() }}"
+                    data-target-activities="{{ $activity->targetActivities->count() }}"
+                    data-innovation-activities="{{ $activity->innovationActivities->count() }}"
+                    data-impact-activities="{{ $activity->impactActivities->count() }}"
+                    data-village-activities="{{ $activity->subActivities->sum(function ($sub) {return $sub->villageActivities->count();}) }}"
+                >
+                    @csrf
+                    @method('DELETE')
+                    <button
+                        type="submit"
+                        class="btn btn-danger"
+                    >
+                        <i class="bx bx-trash me-1"></i> Hapus Kegiatan
+                    </button>
+                </form>
             </div>
         </div>
 
@@ -165,20 +185,33 @@
                                             <span class="badge bg-label-primary me-2">{{ $index + 1 }}</span>
                                             {{ $subActivity->title }}
                                         </div>
-                                        <form
-                                            action="{{ route('admin.activities.sub-activities.destroy', [$activity->id, $subActivity->id]) }}"
-                                            method="POST"
-                                            onsubmit="return confirm('Yakin ingin menghapus sub kegiatan ini?')"
-                                        >
-                                            @csrf
-                                            @method('DELETE')
-                                            <button
-                                                type="submit"
-                                                class="btn btn-sm btn-outline-danger"
+                                        <div class="d-flex gap-2">
+                                            <a
+                                                href="{{ route('admin.activities.sub-activities.edit', [$activity->id, $subActivity->id]) }}"
+                                                class="btn btn-sm btn-outline-primary"
+                                                title="Edit sub kegiatan"
                                             >
-                                                <i class="bx bx-trash"></i>
-                                            </button>
-                                        </form>
+                                                <i class="bx bx-edit"></i>
+                                            </a>
+                                            <form
+                                                action="{{ route('admin.activities.sub-activities.destroy', [$activity->id, $subActivity->id]) }}"
+                                                method="POST"
+                                                class="delete-form"
+                                                data-title="Sub Kegiatan"
+                                                data-text="Sub kegiatan ini memiliki {{ $subActivity->villageActivities->count() }} data kegiatan desa yang akan ikut terhapus. Yakin ingin menghapus?"
+                                                data-villages-count="{{ $subActivity->villageActivities->count() }}"
+                                            >
+                                                @csrf
+                                                @method('DELETE')
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-sm btn-outline-danger"
+                                                    title="Hapus sub kegiatan"
+                                                >
+                                                    <i class="bx bx-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                 @endforeach
                             </div>
@@ -214,20 +247,33 @@
                                             <span class="badge bg-label-success me-2">{{ $index + 1 }}</span>
                                             {{ $targetActivity->title }}
                                         </div>
-                                        <form
-                                            action="{{ route('admin.activities.target-activities.destroy', [$activity->id, $targetActivity->id]) }}"
-                                            method="POST"
-                                            onsubmit="return confirm('Yakin ingin menghapus target kegiatan ini?')"
-                                        >
-                                            @csrf
-                                            @method('DELETE')
-                                            <button
-                                                type="submit"
-                                                class="btn btn-sm btn-outline-danger"
+
+                                        <div class="d-flex gap-2">
+                                            <a
+                                                href="{{ route('admin.activities.target-activities.edit', [$activity->id, $targetActivity->id]) }}"
+                                                class="btn btn-sm btn-outline-primary"
+                                                title="Edit target kegiatan"
                                             >
-                                                <i class="bx bx-trash"></i>
-                                            </button>
-                                        </form>
+                                                <i class="bx bx-edit"></i>
+                                            </a>
+                                            <form
+                                                action="{{ route('admin.activities.target-activities.destroy', [$activity->id, $targetActivity->id]) }}"
+                                                method="POST"
+                                                class="delete-form"
+                                                data-title="Target Kegiatan"
+                                                data-text="Yakin ingin menghapus target kegiatan ini?"
+                                            >
+                                                @csrf
+                                                @method('DELETE')
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-sm btn-outline-danger"
+                                                    title="Hapus target kegiatan"
+                                                >
+                                                    <i class="bx bx-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                 @endforeach
                             </div>
@@ -263,20 +309,32 @@
                                             <span class="badge bg-label-info me-2">{{ $index + 1 }}</span>
                                             {{ $innovationActivity->title }}
                                         </div>
-                                        <form
-                                            action="{{ route('admin.activities.innovation-activities.destroy', [$activity->id, $innovationActivity->id]) }}"
-                                            method="POST"
-                                            onsubmit="return confirm('Yakin ingin menghapus inovasi kegiatan ini?')"
-                                        >
-                                            @csrf
-                                            @method('DELETE')
-                                            <button
-                                                type="submit"
-                                                class="btn btn-sm btn-outline-danger"
+                                        <div class="d-flex gap-2">
+                                            <a
+                                                href="{{ route('admin.activities.innovation-activities.edit', [$activity->id, $innovationActivity->id]) }}"
+                                                class="btn btn-sm btn-outline-primary"
+                                                title="Edit inovasi kegiatan"
                                             >
-                                                <i class="bx bx-trash"></i>
-                                            </button>
-                                        </form>
+                                                <i class="bx bx-edit"></i>
+                                            </a>
+                                            <form
+                                                action="{{ route('admin.activities.innovation-activities.destroy', [$activity->id, $innovationActivity->id]) }}"
+                                                method="POST"
+                                                class="delete-form"
+                                                data-title="Inovasi Kegiatan"
+                                                data-text="Yakin ingin menghapus inovasi kegiatan ini?"
+                                            >
+                                                @csrf
+                                                @method('DELETE')
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-sm btn-outline-danger"
+                                                    title="Hapus inovasi kegiatan"
+                                                >
+                                                    <i class="bx bx-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                 @endforeach
                             </div>
@@ -312,20 +370,32 @@
                                             <span class="badge bg-label-warning me-2">{{ $index + 1 }}</span>
                                             {{ $impactActivity->title }}
                                         </div>
-                                        <form
-                                            action="{{ route('admin.activities.impact-activities.destroy', [$activity->id, $impactActivity->id]) }}"
-                                            method="POST"
-                                            onsubmit="return confirm('Yakin ingin menghapus dampak kegiatan ini?')"
-                                        >
-                                            @csrf
-                                            @method('DELETE')
-                                            <button
-                                                type="submit"
-                                                class="btn btn-sm btn-outline-danger"
+                                        <div class="d-flex gap-2">
+                                            <a
+                                                href="{{ route('admin.activities.impact-activities.edit', [$activity->id, $impactActivity->id]) }}"
+                                                class="btn btn-sm btn-outline-primary"
+                                                title="Edit dampak kegiatan"
                                             >
-                                                <i class="bx bx-trash"></i>
-                                            </button>
-                                        </form>
+                                                <i class="bx bx-edit"></i>
+                                            </a>
+                                            <form
+                                                action="{{ route('admin.activities.impact-activities.destroy', [$activity->id, $impactActivity->id]) }}"
+                                                method="POST"
+                                                class="delete-form"
+                                                data-title="Dampak Kegiatan"
+                                                data-text="Yakin ingin menghapus dampak kegiatan ini?"
+                                            >
+                                                @csrf
+                                                @method('DELETE')
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-sm btn-outline-danger"
+                                                    title="Hapus dampak kegiatan"
+                                                >
+                                                    <i class="bx bx-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                 @endforeach
                             </div>
@@ -573,3 +643,161 @@
         </div>
     @endpush
 @endsection
+
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle delete confirmation with SweetAlert2
+            const deleteForms = document.querySelectorAll('.delete-form');
+
+            deleteForms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    const title = this.getAttribute('data-title');
+                    const text = this.getAttribute('data-text');
+                    const villagesCount = this.getAttribute('data-villages-count');
+
+                    // Customize warning for sub activities with village data
+                    let icon = 'warning';
+                    let html = text;
+
+                    if (villagesCount && parseInt(villagesCount) > 0) {
+                        icon = 'error';
+                        html = `
+                            <div class="text-start">
+                                <p class="mb-2">${text}</p>
+                                <div class="alert alert-danger d-flex align-items-center mb-0">
+                                    <i class="bx bx-error-circle fs-4 me-2"></i>
+                                    <div>
+                                        <strong>Peringatan!</strong><br>
+                                        <span class="badge bg-danger">${villagesCount}</span> data kegiatan desa akan terhapus secara permanen.
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+
+                    Swal.fire({
+                        title: 'Hapus ' + title + '?',
+                        html: html,
+                        icon: icon,
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Ya, Hapus!',
+                        cancelButtonText: 'Batal',
+                        reverseButtons: true,
+                        width: '600px'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Show loading
+                            Swal.fire({
+                                title: 'Menghapus...',
+                                html: villagesCount && parseInt(villagesCount) > 0 ?
+                                    'Menghapus sub kegiatan dan data kegiatan desa terkait...' :
+                                    'Menghapus data...',
+                                allowOutsideClick: false,
+                                allowEscapeKey: false,
+                                didOpen: () => {
+                                    Swal.showLoading();
+                                }
+                            });
+
+                            // Submit the form
+                            this.submit();
+                        }
+                    });
+                });
+            });
+
+            // Handle delete activity confirmation
+            const deleteActivityForm = document.querySelector('.delete-activity-form');
+
+            if (deleteActivityForm) {
+                deleteActivityForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    const activityTitle = this.getAttribute('data-title');
+                    const subActivities = parseInt(this.getAttribute('data-sub-activities')) || 0;
+                    const targetActivities = parseInt(this.getAttribute('data-target-activities')) || 0;
+                    const innovationActivities = parseInt(this.getAttribute(
+                        'data-innovation-activities')) || 0;
+                    const impactActivities = parseInt(this.getAttribute('data-impact-activities')) || 0;
+                    const villageActivities = parseInt(this.getAttribute('data-village-activities')) || 0;
+
+                    let deletedDataList = [];
+                    if (subActivities > 0) deletedDataList.push(
+                        `<li><strong>${subActivities}</strong> Sub Kegiatan</li>`);
+                    if (villageActivities > 0) deletedDataList.push(
+                        `<li><strong>${villageActivities}</strong> Data Kegiatan Desa</li>`);
+                    if (targetActivities > 0) deletedDataList.push(
+                        `<li><strong>${targetActivities}</strong> Target Kegiatan</li>`);
+                    if (innovationActivities > 0) deletedDataList.push(
+                        `<li><strong>${innovationActivities}</strong> Inovasi Kegiatan</li>`);
+                    if (impactActivities > 0) deletedDataList.push(
+                        `<li><strong>${impactActivities}</strong> Dampak Kegiatan</li>`);
+
+                    let htmlContent = `
+                        <div class="text-start">
+                            <p class="mb-3">Anda akan menghapus kegiatan <strong>"${activityTitle}"</strong></p>
+                    `;
+
+                    if (deletedDataList.length > 0) {
+                        htmlContent += `
+                            <div class="alert alert-danger">
+                                <div class="d-flex align-items-start">
+                                    <i class="bx bx-error-circle fs-3 me-2"></i>
+                                    <div>
+                                        <strong class="d-block mb-2">PERINGATAN!</strong>
+                                        <p class="mb-2">Data berikut akan ikut terhapus secara permanen:</p>
+                                        <ul class="mb-0 ps-3">
+                                            ${deletedDataList.join('')}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+
+                    htmlContent += `
+                            <p class="mb-0 text-muted"><small><i class="bx bx-info-circle"></i> Tindakan ini tidak dapat dibatalkan!</small></p>
+                        </div>
+                    `;
+
+                    Swal.fire({
+                        title: 'Hapus Kegiatan?',
+                        html: htmlContent,
+                        icon: 'error',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Ya, Hapus Semua!',
+                        cancelButtonText: 'Batal',
+                        reverseButtons: true,
+                        width: '650px',
+                        customClass: {
+                            confirmButton: 'btn btn-danger px-4',
+                            cancelButton: 'btn btn-secondary px-4'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                title: 'Menghapus Kegiatan...',
+                                html: 'Mohon tunggu, sedang menghapus kegiatan dan semua data terkait...',
+                                allowOutsideClick: false,
+                                allowEscapeKey: false,
+                                didOpen: () => {
+                                    Swal.showLoading();
+                                }
+                            });
+
+                            this.submit();
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+@endpush

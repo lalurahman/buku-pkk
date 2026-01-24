@@ -41,4 +41,16 @@ class ActivityService
             'impactActivities'
         ])->find($id);
     }
+
+    public function updateActivity($activity, $data)
+    {
+        $activity->update([
+            'title' => $data['title'],
+            'description' => $data['description'] ?? null,
+            'start_date' => $data['start_date'] ?? null,
+            'end_date' => $data['end_date'] ?? null,
+        ]);
+
+        return $activity;
+    }
 }

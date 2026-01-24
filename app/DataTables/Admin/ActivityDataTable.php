@@ -31,12 +31,6 @@ class ActivityDataTable extends DataTable
                         <a href="{$showUrl}" class="btn btn-sm btn-outline-info me-2">
                             Lihat Detail
                         </a>
-                        <a href="{$editUrl}" class="btn btn-sm btn-outline-info me-2">
-                            <i class="bx bx-edit"></i>
-                        </a>
-                        <button class="btn btn-sm btn-outline-danger btn-delete" data-id="{$row->id}">
-                            <i class="bx bx-trash"></i>
-                        </button>
                     </div>
                 BLADE;
             })
