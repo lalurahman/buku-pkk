@@ -46,4 +46,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function userHasDistricts()
+    {
+        return $this->hasMany(UserHasDistrict::class, 'user_id', 'id');
+    }
+
+    public function userHasVillages()
+    {
+        return $this->hasMany(UserHasVillage::class, 'user_id', 'id');
+    }
 }

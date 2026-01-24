@@ -71,9 +71,10 @@ class ProgressDataTable extends DataTable
     public function query(Village $model): QueryBuilder
     {
         $activityId = request()->route('id');
+        $districtId = request()->get('district_id');
 
         // Get villages that have village activities for this activity
-        return $model->newQuery()
+        $query = $model->newQuery()
             ->select([
                 'villages.id',
                 'villages.name',
@@ -86,6 +87,13 @@ class ProgressDataTable extends DataTable
             ->where('sub_activities.activity_id', $activityId)
             ->with('district')
             ->groupBy('villages.id', 'villages.name', 'villages.district_id');
+
+        // Filter by district if provided
+        if ($districtId) {
+            $query->where('villages.district_id', $districtId);
+        }
+
+        return $query;
     }
 
     /**

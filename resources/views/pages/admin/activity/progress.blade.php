@@ -61,6 +61,42 @@
         </div>
         <!-- Table Card -->
         <div class="card shadow-sm mb-4">
+            <div class="card-header">
+                <div class="row align-items-center">
+                    <div class="col-md-4">
+                        <h5 class="mb-0">Daftar Desa/Kelurahan</h5>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row g-2">
+                            <div class="col-md-6">
+                                <select
+                                    id="districtFilter"
+                                    class="form-select"
+                                >
+                                    <option value="">Semua Kecamatan</option>
+                                    @foreach ($districts as $district)
+                                        <option
+                                            value="{{ $district->id }}"
+                                            {{ request('district_id') == $district->id ? 'selected' : '' }}
+                                        >
+                                            {{ $district->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-secondary"
+                                    id="resetFilter"
+                                >
+                                    <i class="bi bi-x-circle me-1"></i> Reset Filter
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="card-body">
                 <div class="table-responsive text-nowrap">
                     {{ $dataTable->table() }}
@@ -73,4 +109,24 @@
 @push('scripts')
     {{ $dataTable->scripts() }}
     <script src="{{ asset('admin/datatables/datatables-bootstrap5.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            // Filter by district
+            $('#districtFilter').on('change', function() {
+                const districtId = $(this).val();
+                const table = window.LaravelDataTables["progress-table"];
+
+                // Add district_id parameter to ajax URL
+                table.ajax.url("{{ route('admin.activities.progress', $activity->id) }}?district_id=" +
+                    districtId).load();
+            });
+
+            // Reset filter
+            $('#resetFilter').on('click', function() {
+                $('#districtFilter').val('');
+                const table = window.LaravelDataTables["progress-table"];
+                table.ajax.url("{{ route('admin.activities.progress', $activity->id) }}").load();
+            });
+        });
+    </script>
 @endpush

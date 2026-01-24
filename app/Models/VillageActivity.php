@@ -22,4 +22,9 @@ class VillageActivity extends Model
     {
         return $this->hasMany(GalleryVillageActivity::class, 'village_activity_id');
     }
+
+    public function galleryVillageActivities()
+    {
+        return $this->hasMany(GalleryVillageActivity::class, 'village_activity_id');
+    }
 }

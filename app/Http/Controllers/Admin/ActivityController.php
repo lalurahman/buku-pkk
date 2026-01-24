@@ -514,11 +514,15 @@ class ActivityController extends Controller
 
         // Load subActivities relation
         $activity->load('subActivities');
-        // dd($activity);
 
-        // Debug activity dan sub activities
-        // $subActivityIds = $activity->subActivities->pluck('id')->toArray();
-        // dd($subActivityIds);
+        // Get all districts that have villages participating in this activity
+        $districts = \App\Models\District::whereHas('villages', function ($query) use ($activity) {
+            $query->whereHas('villageActivities', function ($q) use ($activity) {
+                $q->whereHas('subActivity', function ($sq) use ($activity) {
+                    $sq->where('activity_id', $activity->id);
+                });
+            });
+        })->orderBy('name')->get();
 
         // Get village activities untuk activity ini - langsung dari sub_activity_id
         $villageActivitiesRaw = VillageActivity::where(function ($query) use ($activity) {
@@ -552,7 +556,7 @@ class ActivityController extends Controller
         // Sort by completed activities descending
         $villages = $villages->sortByDesc('completed_activities')->values();
 
-        return $dataTable->render('pages.admin.activity.progress', compact('activity', 'villages'));
+        return $dataTable->render('pages.admin.activity.progress', compact('activity', 'villages', 'districts'));
     }
 
     public function progressDetail($activityId, $villageId)

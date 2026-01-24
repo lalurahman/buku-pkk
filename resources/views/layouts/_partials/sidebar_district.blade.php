@@ -56,6 +56,16 @@
             </span>
         </li>
 
+        <li class="menu-item @if (request()->is('kecamatan/activities*')) active @endif">
+            <a
+                href="{{ route('district.activities.index') }}"
+                class="menu-link"
+            >
+                <i class="menu-icon icon-base bx bx-user"></i>
+                <div data-i18n="Profile">Kegiatan Desa</div>
+            </a>
+        </li>
+
         <!-- Account -->
         <li class="menu-header small">
             <span

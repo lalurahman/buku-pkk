@@ -42,10 +42,10 @@
                     <div class="flex-grow-1">
                         <div class="d-flex align-items-center mb-2">
                             <i class="bx bx-map-pin text-primary me-2 fs-4"></i>
-                            <h4 class="mb-0">{{ $village->name }}</h4>
+                            <h4 class="mb-0">Desa : {{ $village->name }}</h4>
                         </div>
-                        <p class="text-muted mb-2">{{ $village->district->name ?? '-' }}</p>
-                        <h5 class="text-muted mb-3">{{ $activity->title }}</h5>
+                        <p class="text-muted mb-2">Kecamatan : {{ $village->district->name ?? '-' }}</p>
+                        <h5 class="text-muted mb-3">Kegiatan : {{ $activity->title }}</h5>
 
                         @if ($activity->description)
                             <p class="text-muted mb-3">{{ $activity->description }}</p>
