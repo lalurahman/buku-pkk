@@ -24,17 +24,12 @@ class IncomingLetterDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
+                $showUrl = route('admin.incoming-letters.show', $row->id);
                 return <<<BLADE
                     <div class="d-flex justify-content-center">
-                        <a href="#" class="btn btn-sm btn-outline-info me-2">
+                        <a href="{$showUrl}" class="btn btn-sm btn-outline-info me-2">
                             Lihat Detail
                         </a>
-                        <a href="#" class="btn btn-sm btn-outline-info me-2">
-                            <i class="bx bx-edit"></i>
-                        </a>
-                        <button class="btn btn-sm btn-outline-danger btn-delete" data-id="{$row->id}">
-                            <i class="bx bx-trash"></i>
-                        </button>
                     </div>
                 BLADE;
             })
@@ -77,9 +72,9 @@ class IncomingLetterDataTable extends DataTable
                 ->orderable(false)
                 ->width(30)
                 ->addClass('text-center'),
-            Column::make('letter_number'),
-            Column::make('sender'),
-            Column::make('subject'),
+            Column::make('letter_number')->title('Nomor Surat'),
+            Column::make('sender')->title('Pengirim'),
+            Column::make('subject')->title('Perihal'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

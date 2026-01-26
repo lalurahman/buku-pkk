@@ -84,7 +84,7 @@
                 </li>
             </ul>
         </li>
-        <li class="menu-item @if (request()->is('administrator/incoming-letters*')) active open @endif">
+        <li class="menu-item @if (request()->is('administrator/*-letters*')) active open @endif">
             <a
                 href="javascript:void(0);"
                 class="menu-link menu-toggle"
