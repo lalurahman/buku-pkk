@@ -56,7 +56,7 @@
             </span>
         </li>
 
-        <li class="menu-item @if (request()->is('administrator/members*')) active open @endif">
+        <li class="menu-item @if (request()->is('administrator/members*') || request()->is('administrator/main-members*')) active open @endif">
             <a
                 href="javascript:void(0);"
                 class="menu-link menu-toggle"
@@ -74,9 +74,9 @@
                         <div>Kader</div>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item @if (request()->is('administrator/main-members*')) active @endif">
                     <a
-                        href="#"
+                        href="{{ route('admin.members.main.index') }}"
                         class="menu-link"
                     >
                         <div>Tim Penggerak</div>

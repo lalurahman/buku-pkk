@@ -12,12 +12,12 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class MemberDataTable extends DataTable
+class MainMemberDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
      *
-     * @param QueryBuilder<Member> $query Results from query() method.
+     * @param QueryBuilder<MainMember> $query Results from query() method.
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
@@ -57,17 +57,7 @@ class MemberDataTable extends DataTable
     public function query(Member $model): QueryBuilder
     {
         $query = $model->newQuery()
-            ->with(['memberRole', 'functionalPosition'])
-            ->select('members.*');
-
-        // Filter by functional position if provided (exclude 'all' option)
-        if (
-            request()->has('functional_position_id') &&
-            request('functional_position_id') !== '' &&
-            request('functional_position_id') !== 'all'
-        ) {
-            $query->where('functional_position_id', request('functional_position_id'));
-        }
+            ->where('functional_position_id', 1);
 
         return $query;
     }
@@ -78,7 +68,7 @@ class MemberDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('member-table')
+            ->setTableId('mainmember-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->orderBy(1)
@@ -116,6 +106,6 @@ class MemberDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Admin\Member_' . date('YmdHis');
+        return 'Admin\MainMember_' . date('YmdHis');
     }
 }

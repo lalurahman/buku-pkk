@@ -25,6 +25,7 @@ Route::prefix('administrator')
             'meeting-minutes' => MeetingMinuteController::class,
             'outgoing-letters' => OutgoingLetterController::class,
         ]);
+        Route::get('main-members', [MemberController::class, 'mainMember'])->name('members.main.index');
 
         // Activity Relations Routes
         Route::prefix('activities/{activity}')->name('activities.')->group(function () {
