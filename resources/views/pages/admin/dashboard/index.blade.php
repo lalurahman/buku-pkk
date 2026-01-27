@@ -20,7 +20,7 @@
                                     class="text-white mb-0"
                                     style="opacity: 0.9;"
                                 >
-                                    Sistem Informasi Manajemen PKK - Dashboard Administrasi
+                                    Sistem Informasi Manajemen Buku Wajib PKK - Dashboard Administrasi
                                 </p>
                             </div>
                             <div class="col-md-4 text-end">
