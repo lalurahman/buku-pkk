@@ -20,7 +20,7 @@
         <div class="navbar-nav align-items-start">
             <div class="nav-item navbar-search-wrapper mb-0">
                 <span class="font-weight-bold text-uppercase">
-                    ADMIN
+                    PKK Kab. Takalar
                 </span>
             </div>
         </div>
@@ -45,7 +45,7 @@
                     <li>
                         <a
                             class="dropdown-item"
-                            href="#"
+                            href="{{ route('profile.index') }}"
                         >
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
