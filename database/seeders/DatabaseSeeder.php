@@ -19,7 +19,9 @@ class DatabaseSeeder extends Seeder
             IndoRegionSeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
-            DummyDataSeeder::class,
+            MemberRoleSeeder::class,
+            FunctionalPositionSeeder::class,
+            SourceFundSeeder::class,
         ]);
     }
 }

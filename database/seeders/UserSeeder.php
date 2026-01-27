@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
         $admin = User::create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
-            'password' => Hash::make('password123'),
+            'password' => Hash::make('4dmin@pkk'),
         ]);
 
 
@@ -43,7 +43,7 @@ class UserSeeder extends Seeder
             $userKecamatan = User::create([
                 'name' => 'Kecamatan ' . $district->name,
                 'email' => 'kecamatan.' . strtolower(str_replace(' ', '', $district->name)) . '@gmail.com',
-                'password' => Hash::make('password123'),
+                'password' => Hash::make('1234567890'),
             ]);
 
             $userKecamatan->assignRole('District');
@@ -72,7 +72,7 @@ class UserSeeder extends Seeder
                 $userDesa = User::create([
                     'name' => 'Desa ' . $village->name,
                     'email' => $email,
-                    'password' => Hash::make('password123'),
+                    'password' => Hash::make('1234567890'),
                 ]);
 
                 $userDesa->assignRole('Village');
