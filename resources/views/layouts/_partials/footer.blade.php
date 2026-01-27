@@ -6,7 +6,14 @@
                 <script>
                     document.write(new Date().getFullYear());
                 </script>
-                PKK Kab. Takalar
+                PKK Kab. Takalar | Developed by
+                <a
+                    href="https://lalurahman.web.app"
+                    target="_blank"
+                    class="footer-link fw-semibold"
+                >
+                    Lalu Abdurrahman
+                </a>
             </div>
         </div>
     </div>

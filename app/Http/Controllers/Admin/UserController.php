@@ -37,7 +37,7 @@ class UserController extends Controller
 
     public function districtExport()
     {
-        return Excel::download(new UserDistrictExport, 'user-kecamatan-' . date('Y-m-d') . '.xlsx');
+        return Excel::download(new UserDistrictExport, 'akun-kecamatan-' . date('Y-m-d') . '.xlsx');
     }
 
     public function village(UserVillageDataTable $dataTable)
@@ -47,7 +47,7 @@ class UserController extends Controller
 
     public function villageExport()
     {
-        return Excel::download(new UserVillageExport, 'user-desa-' . date('Y-m-d') . '.xlsx');
+        return Excel::download(new UserVillageExport, 'akun-desa-' . date('Y-m-d') . '.xlsx');
     }
 
     public function show($id)

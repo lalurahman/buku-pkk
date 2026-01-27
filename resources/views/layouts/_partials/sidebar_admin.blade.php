@@ -139,15 +139,6 @@
                 <div data-i18n="Profile">Data Notulensi</div>
             </a>
         </li>
-        <li class="menu-item @if (request()->is('administrator/guest-books*')) active @endif">
-            <a
-                href="{{ route('admin.guest-books.index') }}"
-                class="menu-link"
-            >
-                <i class="menu-icon icon-base bx bx-book"></i>
-                <div data-i18n="Profile">Buku Tamu</div>
-            </a>
-        </li>
         <li class="menu-item @if (request()->is('administrator/inventories*')) active @endif">
             <a
                 href="{{ route('admin.inventories.index') }}"
@@ -157,6 +148,16 @@
                 <div data-i18n="Profile">Inventaris</div>
             </a>
         </li>
+        <li class="menu-item @if (request()->is('administrator/guest-books*')) active @endif">
+            <a
+                href="{{ route('admin.guest-books.index') }}"
+                class="menu-link"
+            >
+                <i class="menu-icon icon-base bx bx-book"></i>
+                <div data-i18n="Profile">Buku Tamu</div>
+            </a>
+        </li>
+
 
         <!-- Account -->
         <li class="menu-header small">

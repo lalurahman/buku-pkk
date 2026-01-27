@@ -497,6 +497,17 @@
                         <span class="d-block text-center">
                             &copy; {{ date('Y') }} <br> PKK Kabupaten Takalar
                         </span>
+                        <div class="mt-3 text-center">
+                            <small class="text-muted">
+                                Dibuat oleh <a
+                                    href="https://lalurahman.web.app"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <strong>Lalu Abdurrahman</strong>
+                                </a>
+                            </small>
+                        </div>
                     </div>
                 </div>
                 <!-- /Login -->
