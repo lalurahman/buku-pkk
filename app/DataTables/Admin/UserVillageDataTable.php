@@ -23,6 +23,20 @@ class UserVillageDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
+            ->addColumn('villages', function ($row) {
+                $villages = $row->userHasVillages->map(function ($userVillage) {
+                    return '<span class="badge bg-success mb-1"><i class="bx bx-map"></i> ' . ($userVillage->village->name ?? '-') . '</span>';
+                })->join(' ');
+                return $villages ?: '-';
+            })
+            ->addColumn('districts', function ($row) {
+                $districts = $row->userHasVillages->map(function ($userVillage) {
+                    return $userVillage->village->district->name ?? '-';
+                })->unique()->map(function ($district) {
+                    return '<span class="badge bg-primary mb-1"><i class="bx bx-buildings"></i> ' . $district . '</span>';
+                })->join(' ');
+                return $districts ?: '-';
+            })
             ->addColumn('action', function ($row) {
                 $showUrl = route('admin.user.villages.show', $row->id);
                 return <<<BLADE
@@ -33,7 +47,7 @@ class UserVillageDataTable extends DataTable
                     </div>
                 BLADE;
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['villages', 'districts', 'action'])
             ->setRowId('id');
     }
 
@@ -46,7 +60,7 @@ class UserVillageDataTable extends DataTable
     {
         return $model->newQuery()
             ->whereHas('userHasVillages')
-            ->with('userHasVillages');
+            ->with(['userHasVillages.village.district']);
     }
 
     /**
@@ -76,7 +90,18 @@ class UserVillageDataTable extends DataTable
                 ->addClass('text-center'),
             Column::make('name')->title('Nama'),
             Column::make('email')->title('Email'),
+            Column::computed('villages')
+                ->title('Desa')
+                ->searchable(false)
+                ->orderable(false)
+                ->width(150),
+            Column::computed('districts')
+                ->title('Kecamatan')
+                ->searchable(false)
+                ->orderable(false)
+                ->width(150),
             Column::computed('action')
+                ->title('Aksi')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)

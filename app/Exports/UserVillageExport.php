@@ -11,13 +11,15 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class UserVillageExport implements FromCollection, WithHeadings, WithMapping, WithStyles
 {
+    private $rowNumber = 0;
+
     /**
      * @return \Illuminate\Support\Collection
      */
     public function collection()
     {
         return User::whereHas('userHasVillages')
-            ->with('userHasVillages.village')
+            ->with('userHasVillages.village.district')
             ->get();
     }
 
@@ -27,6 +29,8 @@ class UserVillageExport implements FromCollection, WithHeadings, WithMapping, Wi
     public function headings(): array
     {
         return [
+            'No',
+            'Kecamatan',
             'Nama',
             'Email',
             'Password',
@@ -39,10 +43,16 @@ class UserVillageExport implements FromCollection, WithHeadings, WithMapping, Wi
      */
     public function map($user): array
     {
+        $districts = $user->userHasVillages->map(function ($userVillage) {
+            return $userVillage->village->district->name ?? '-';
+        })->unique()->join(', ');
+
         return [
+            ++$this->rowNumber,
+            $districts ?: '-',
             $user->name,
             $user->email,
-            '1234567890'
+            '1234567890',
         ];
     }
 

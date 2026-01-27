@@ -33,7 +33,15 @@ class UserDistrictDataTable extends DataTable
                     </div>
                 BLADE;
             })
-            ->rawColumns(['action'])
+            ->addColumn('districts', function ($row) {
+                $districts = $row->userHasDistricts->map(function ($userDistrict) {
+                    return $userDistrict->district->name ?? '-';
+                })->unique()->map(function ($district) {
+                    return '<span class="badge bg-primary mb-1"><i class="bx bx-buildings"></i> ' . $district . '</span>';
+                })->join(' ');
+                return $districts ?: '-';
+            })
+            ->rawColumns(['action', 'districts'])
             ->setRowId('id');
     }
 
@@ -46,7 +54,7 @@ class UserDistrictDataTable extends DataTable
     {
         return $model->newQuery()
             ->whereHas('userHasDistricts')
-            ->with('userHasDistricts');
+            ->with('userHasDistricts.district');
     }
 
     /**
@@ -75,6 +83,11 @@ class UserDistrictDataTable extends DataTable
                 ->width(30)
                 ->addClass('text-center'),
             Column::make('name')->title('Nama'),
+            Column::computed('districts')
+                ->title('Kecamatan')
+                ->searchable(false)
+                ->orderable(false)
+                ->width(150),
             Column::make('email')->title('Email'),
             Column::computed('action')
                 ->exportable(false)

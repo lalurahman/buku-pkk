@@ -11,6 +11,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class UserDistrictExport implements FromCollection, WithHeadings, WithMapping, WithStyles
 {
+    private $rowNumber = 0;
     /**
      * @return \Illuminate\Support\Collection
      */
@@ -27,6 +28,7 @@ class UserDistrictExport implements FromCollection, WithHeadings, WithMapping, W
     public function headings(): array
     {
         return [
+            'No',
             'Nama',
             'Email',
             'Password',
@@ -40,6 +42,7 @@ class UserDistrictExport implements FromCollection, WithHeadings, WithMapping, W
     public function map($user): array
     {
         return [
+            ++$this->rowNumber,
             $user->name,
             $user->email,
             '1234567890'
