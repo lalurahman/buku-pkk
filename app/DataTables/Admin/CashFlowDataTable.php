@@ -43,6 +43,9 @@ class CashFlowDataTable extends DataTable
                     return '<span class="badge bg-danger">Pengeluaran</span>';
                 }
             })
+            ->editColumn('description', function ($row) {
+                return $row->description ?? '-';
+            })
             ->rawColumns(['action', 'type'])
             ->setRowId('id');
     }
@@ -54,7 +57,14 @@ class CashFlowDataTable extends DataTable
      */
     public function query(CashFlow $model): QueryBuilder
     {
-        return $model->newQuery();
+        $query = $model->newQuery();
+
+        // Apply type filter if exists
+        if (request()->has('type') && request('type') !== '') {
+            $query->where('type', request('type'));
+        }
+
+        return $query;
     }
 
     /**
@@ -100,5 +110,20 @@ class CashFlowDataTable extends DataTable
     protected function filename(): string
     {
         return 'Admin\CashFlow_' . date('YmdHis');
+    }
+
+    /**
+     * Get parameters for DataTable.
+     */
+    protected function getBuilderParameters(): array
+    {
+        $parameters = parent::getBuilderParameters();
+
+        // Add type filter to ajax parameters
+        if (request()->has('type')) {
+            $parameters['ajax']['data'] = 'function(d) { d.type = $("#type-filter").val(); }';
+        }
+
+        return $parameters;
     }
 }

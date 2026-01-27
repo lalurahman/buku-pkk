@@ -107,28 +107,6 @@
                                     @enderror
                                 </div>
 
-                                {{-- Receipt Number --}}
-                                <div class="col-md-6 mb-3">
-                                    <label
-                                        for="receipt_number"
-                                        class="form-label"
-                                    >
-                                        Nomor Bukti <span class="text-danger">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        class="form-control @error('receipt_number') is-invalid @enderror"
-                                        id="receipt_number"
-                                        name="receipt_number"
-                                        placeholder="Contoh: KWT/001/I/2026"
-                                        value="{{ old('receipt_number', $cashFlow->receipt_number) }}"
-                                        required
-                                    >
-                                    @error('receipt_number')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
                                 {{-- Date --}}
                                 <div class="col-md-6 mb-3">
                                     <label
@@ -151,7 +129,7 @@
                                 </div>
 
                                 {{-- Amount --}}
-                                <div class="col-md-12 mb-3">
+                                <div class="col-md-6 mb-3">
                                     <label
                                         for="amount"
                                         class="form-label"

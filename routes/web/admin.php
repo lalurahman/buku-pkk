@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CashFlowController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\GuestBookController;
 use App\Http\Controllers\Admin\IncomingLetterController;
+use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\MeetingMinuteController;
 use App\Http\Controllers\Admin\MemberController;
 use App\Http\Controllers\Admin\OutgoingLetterController;
@@ -24,6 +25,7 @@ Route::prefix('administrator')
             'incoming-letters' => IncomingLetterController::class,
             'meeting-minutes' => MeetingMinuteController::class,
             'outgoing-letters' => OutgoingLetterController::class,
+            'inventories' => InventoryController::class,
         ]);
         Route::get('main-members', [MemberController::class, 'mainMember'])->name('members.main.index');
 

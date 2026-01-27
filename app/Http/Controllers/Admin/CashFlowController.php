@@ -31,7 +31,13 @@ class CashFlowController extends Controller
     public function index(CashFlowDataTable $dataTable)
     {
         $sourceFunds = \App\Models\SourceFund::all();
-        return $dataTable->render('pages.admin.cash_flow.index', compact('sourceFunds'));
+
+        // Calculate statistics
+        $totalIncome = \App\Models\CashFlow::where('type', 'income')->sum('amount');
+        $totalExpense = \App\Models\CashFlow::where('type', 'expense')->sum('amount');
+        $balance = $totalIncome - $totalExpense;
+
+        return $dataTable->render('pages.admin.cash_flow.index', compact('sourceFunds', 'totalIncome', 'totalExpense', 'balance'));
     }
 
     /**

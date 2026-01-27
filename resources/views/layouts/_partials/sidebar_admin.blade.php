@@ -148,6 +148,15 @@
                 <div data-i18n="Profile">Buku Tamu</div>
             </a>
         </li>
+        <li class="menu-item @if (request()->is('administrator/inventories*')) active @endif">
+            <a
+                href="{{ route('admin.inventories.index') }}"
+                class="menu-link"
+            >
+                <i class="menu-icon icon-base bx bx-box"></i>
+                <div data-i18n="Profile">Inventaris</div>
+            </a>
+        </li>
 
         <!-- Account -->
         <li class="menu-header small">

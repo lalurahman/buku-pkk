@@ -14,7 +14,7 @@ class CashFlowService
         $cashFlow = CashFlow::create([
             'type' => $data['type'],
             'source_fund_id' => $data['source_fund_id'],
-            'receipt_number' => $data['receipt_number'],
+            'receipt_number' => $this->generateReceiptNumber(),
             'date' => $data['date'],
             'amount' => $data['amount'],
             'description' => $data['description'] ?? null,
@@ -39,7 +39,6 @@ class CashFlowService
         $cashFlow->update([
             'type' => $data['type'],
             'source_fund_id' => $data['source_fund_id'],
-            'receipt_number' => $data['receipt_number'],
             'date' => $data['date'],
             'amount' => $data['amount'],
             'description' => $data['description'] ?? $cashFlow->description,
@@ -54,5 +53,12 @@ class CashFlowService
     public function deleteCashFlow(CashFlow $cashFlow): bool
     {
         return $cashFlow->delete();
+    }
+
+    private function generateReceiptNumber(): string
+    {
+        $latestCashFlow = CashFlow::orderBy('created_at', 'desc')->first();
+        $nextNumber = $latestCashFlow ? ((int) substr($latestCashFlow->receipt_number, -4)) + 1 : 1;
+        return 'RCPT' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
     }
 }

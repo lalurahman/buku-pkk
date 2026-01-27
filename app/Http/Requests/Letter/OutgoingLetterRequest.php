@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Letter;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
 
 class OutgoingLetterRequest extends FormRequest
 {
@@ -46,5 +47,10 @@ class OutgoingLetterRequest extends FormRequest
             'file.mimes' => 'File harus berformat: pdf',
             'file.max' => 'Ukuran file maksimal 5MB.',
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        return back()->withErrors($validator)->withInput();
     }
 }

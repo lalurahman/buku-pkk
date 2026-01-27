@@ -22,9 +22,84 @@
             </div>
         </div>
 
-        <!-- table -->
-        <div class="card">
+        <!-- Statistics Cards -->
+        <div class="row mb-4">
+            <div class="col-xl-4 col-md-4 col-sm-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="avatar flex-shrink-0 me-3">
+                                <span class="avatar-initial rounded bg-label-success">
+                                    <i class='bx bx-trending-up bx-sm'></i>
+                                </span>
+                            </div>
+                            <div class="flex-grow-1">
+                                <small class="text-muted d-block">Total Pemasukan</small>
+                                <h5 class="card-title mb-0 text-success">Rp {{ number_format($totalIncome, 0, ',', '.') }}
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-4 col-sm-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="avatar flex-shrink-0 me-3">
+                                <span class="avatar-initial rounded bg-label-danger">
+                                    <i class='bx bx-trending-down bx-sm'></i>
+                                </span>
+                            </div>
+                            <div class="flex-grow-1">
+                                <small class="text-muted d-block">Total Pengeluaran</small>
+                                <h5 class="card-title mb-0 text-danger">Rp {{ number_format($totalExpense, 0, ',', '.') }}
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-4 col-sm-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="avatar flex-shrink-0 me-3">
+                                <span
+                                    class="avatar-initial rounded {{ $balance >= 0 ? 'bg-label-primary' : 'bg-label-warning' }}"
+                                >
+                                    <i class='bx bx-wallet bx-sm'></i>
+                                </span>
+                            </div>
+                            <div class="flex-grow-1">
+                                <small class="text-muted d-block">Sisa Saldo</small>
+                                <h5 class="card-title mb-0 {{ $balance >= 0 ? 'text-primary' : 'text-warning' }}">Rp
+                                    {{ number_format($balance, 0, ',', '.') }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-4">
             <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <label
+                            for="type-filter"
+                            class="form-label"
+                        >Tipe Transaksi</label>
+                        <select
+                            id="type-filter"
+                            class="form-select"
+                        >
+                            <option value="">Semua Transaksi</option>
+                            <option value="income">Pemasukan</option>
+                            <option value="expense">Pengeluaran</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="table-responsive text-nowrap">
                     {{ $dataTable->table() }}
                 </div>
@@ -125,30 +200,8 @@
                                 @enderror
                             </div>
 
-                            {{-- Receipt Number --}}
-                            <div class="col-md-6 mb-3">
-                                <label
-                                    for="receipt_number"
-                                    class="form-label"
-                                >
-                                    Nomor Bukti <span class="text-danger">*</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    class="form-control @error('receipt_number') is-invalid @enderror"
-                                    id="receipt_number"
-                                    name="receipt_number"
-                                    placeholder="Contoh: KWT/001/I/2026"
-                                    value="{{ old('receipt_number') }}"
-                                    required
-                                >
-                                @error('receipt_number')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
                             {{-- Date --}}
-                            <div class="col-md-6 mb-3">
+                            <div class="col-12 col-md-6 mb-3">
                                 <label
                                     for="date"
                                     class="form-label"
@@ -169,7 +222,7 @@
                             </div>
 
                             {{-- Amount --}}
-                            <div class="col-md-12 mb-3">
+                            <div class="col-12 col-md-6 mb-3">
                                 <label
                                     for="amount"
                                     class="form-label"
@@ -233,4 +286,18 @@
 @push('scripts')
     {{ $dataTable->scripts() }}
     <script src="{{ asset('admin/datatables/datatables-bootstrap5.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            // Type filter
+            $('#type-filter').on('change', function() {
+                window.LaravelDataTables['cashflow-table'].ajax.reload();
+            });
+
+            // Override ajax data to include filter
+            var table = window.LaravelDataTables['cashflow-table'];
+            table.on('preXhr.dt', function(e, settings, data) {
+                data.type = $('#type-filter').val();
+            });
+        });
+    </script>
 @endpush
