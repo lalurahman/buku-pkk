@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\MeetingMinuteController;
 use App\Http\Controllers\Admin\MemberController;
 use App\Http\Controllers\Admin\OutgoingLetterController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('administrator')
@@ -28,6 +29,12 @@ Route::prefix('administrator')
             'inventories' => InventoryController::class,
         ]);
         Route::get('main-members', [MemberController::class, 'mainMember'])->name('members.main.index');
+
+        // account
+        Route::prefix('user')->name('user.')->group(function () {
+            Route::get('villages', [UserController::class, 'village'])->name('villages.index');
+            Route::get('districts', [UserController::class, 'district'])->name('districts.index');
+        });
 
         // Activity Relations Routes
         Route::prefix('activities/{activity}')->name('activities.')->group(function () {

@@ -166,6 +166,35 @@
             >Account</span>
         </li>
 
+        <li class="menu-item @if (request()->is('administrator/user*')) active open @endif">
+            <a
+                href="javascript:void(0);"
+                class="menu-link menu-toggle"
+            >
+                <i class="menu-icon icon-base bx bx-file"></i>
+                <div>Data Akun</div>
+            </a>
+
+            <ul class="menu-sub">
+                <li class="menu-item @if (request()->is('administrator/user/districts*')) active @endif">
+                    <a
+                        href="{{ route('admin.user.districts.index') }}"
+                        class="menu-link"
+                    >
+                        <div>Kecamatan</div>
+                    </a>
+                </li>
+                <li class="menu-item @if (request()->is('administrator/user/villages*')) active @endif">
+                    <a
+                        href="{{ route('admin.user.villages.index') }}"
+                        class="menu-link"
+                    >
+                        <div>Desa</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
         <li class="menu-item @if (request()->is('administrator/profile')) active @endif">
             <a
                 href="#"
