@@ -2,59 +2,62 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
+use App\Services\ActivityService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
-    public function edit(Request $request): View
+    protected $activityService;
+    protected $userService;
+
+    public function __construct(ActivityService $activityService, UserService $userService)
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        $this->activityService = $activityService;
+        $this->userService = $userService;
     }
 
-    /**
-     * Update the user's profile information.
-     */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    private function user()
     {
-        $request->user()->fill($request->validated());
+        return Auth::user();
+    }
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+    public function index()
+    {
+        $user = $this->user();
+        $role = $this->user()->getRoleNames()->first();
+        // dd($role);
+        return view('pages.profile.index', compact('user'));
+    }
+
+    public function update(UserRequest $request, $id)
+    {
+        try {
+            // Ensure user can only update their own profile
+            if ($this->user()->id != $id) {
+                return redirect()->back()
+                    ->with('error', 'Anda tidak memiliki akses untuk mengubah profile ini.');
+            }
+
+            $user = $this->userService->getUserById($id);
+            $updatedUser = $this->userService->updateUser($user, $request->validated());
+
+            $this->activityService->log(
+                'admin',
+                $this->user()->id,
+                'update',
+                'Mengubah profile sendiri'
+            );
+
+            return redirect()->route('profile.index')
+                ->with('success', 'Profile berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Gagal memperbarui profile: ' . $e->getMessage())
+                ->withInput();
         }
-
-        $request->user()->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
-    }
-
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
-
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
     }
 }

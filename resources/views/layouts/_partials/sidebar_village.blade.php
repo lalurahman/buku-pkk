@@ -74,9 +74,9 @@
             >Account</span>
         </li>
 
-        <li class="menu-item @if (request()->is('village/profile')) active @endif">
+        <li class="menu-item @if (request()->is('profile')) active @endif">
             <a
-                href="#"
+                href="{{ route('profile.index') }}"
                 class="menu-link"
             >
                 <i class="menu-icon icon-base bx bx-user"></i>

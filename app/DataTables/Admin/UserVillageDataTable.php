@@ -24,10 +24,11 @@ class UserVillageDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
+                $showUrl = route('admin.user.villages.show', $row->id);
                 return <<<BLADE
                     <div class="d-flex justify-content-center">
-                        <a href="#" class="btn btn-sm btn-outline-info me-2">
-                            Lihat Detail
+                        <a href="{$showUrl}" class="btn btn-sm btn-outline-info">
+                            <i class="bx bx-show"></i>
                         </a>
                     </div>
                 BLADE;

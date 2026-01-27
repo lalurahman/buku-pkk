@@ -33,7 +33,16 @@ Route::prefix('administrator')
         // account
         Route::prefix('user')->name('user.')->group(function () {
             Route::get('villages', [UserController::class, 'village'])->name('villages.index');
+            Route::get('villages/export', [UserController::class, 'villageExport'])->name('villages.export');
+            Route::get('villages/{id}', [UserController::class, 'show'])->name('villages.show');
+            Route::get('villages/{id}/edit', [UserController::class, 'edit'])->name('villages.edit');
+            Route::put('villages/{id}', [UserController::class, 'update'])->name('villages.update');
+
             Route::get('districts', [UserController::class, 'district'])->name('districts.index');
+            Route::get('districts/export', [UserController::class, 'districtExport'])->name('districts.export');
+            Route::get('districts/{id}', [UserController::class, 'show'])->name('districts.show');
+            Route::get('districts/{id}/edit', [UserController::class, 'edit'])->name('districts.edit');
+            Route::put('districts/{id}', [UserController::class, 'update'])->name('districts.update');
         });
 
         // Activity Relations Routes

@@ -9,6 +9,14 @@
             <div class="d-flex flex-column justify-content-center">
                 <h4 class="mb-1">Data Akun Kecamatan</h4>
             </div>
+            <div class="d-flex align-content-center flex-wrap gap-2">
+                <a
+                    href="{{ route('admin.user.districts.export') }}"
+                    class="btn btn-outline-success"
+                >
+                    <i class='bx bxs-file-export me-2'></i> Export Excel
+                </a>
+            </div>
         </div>
 
         <!-- table -->
