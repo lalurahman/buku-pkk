@@ -105,7 +105,7 @@
                         href="{{ route('admin.activities.progress', $activity->id) }}"
                         class="btn btn-outline-secondary"
                     >
-                        <i class="bi bi-arrow-left me-1"></i> Kembali
+                        <i class="bx bx-arrow-back me-1"></i> Kembali
                     </a>
                 </div>
             </div>

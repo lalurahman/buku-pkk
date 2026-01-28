@@ -10,7 +10,7 @@
             <div class="col-12">
                 <div
                     class="card bg-primary text-white"
-                    style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"
+                    style="background: linear-gradient(135deg, #0286c6 0%, #0286c6 100%);"
                 >
                     <div class="card-body">
                         <div class="row align-items-center">
@@ -163,7 +163,7 @@
                             <div class="col-md-4">
                                 <div
                                     class="text-center p-3 border rounded"
-                                    style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"
+                                    style="background: linear-gradient(135deg, #0286c6 0%, #0286c6 100%);"
                                 >
                                     <i class='bx bx-wallet bx-lg text-white mb-2'></i>
                                     <p

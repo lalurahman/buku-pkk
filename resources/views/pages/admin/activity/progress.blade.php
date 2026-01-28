@@ -12,7 +12,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('admin.activities.index') }}">Kegiatan</a></li>
-                <li class="breadcrumb-item"><a
+                <li class="breadcrumb-item text-capitalize"><a
                         href="{{ route('admin.activities.show', $activity->id) }}">{{ $activity->title }}</a></li>
                 <li class="breadcrumb-item active">Progress</li>
             </ol>
@@ -54,7 +54,7 @@
                         href="{{ route('admin.activities.show', $activity->id) }}"
                         class="btn btn-outline-secondary"
                     >
-                        <i class="bi bi-arrow-left me-1"></i> Kembali
+                        <i class="bx bx-arrow-back me-1"></i> Kembali
                     </a>
                 </div>
             </div>

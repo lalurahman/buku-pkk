@@ -14,6 +14,8 @@
 
 @extends($layout)
 
+@section('title', 'Profile')
+
 @section('content')
     <div class="container-fluid">
         {{-- Header --}}
@@ -217,12 +219,6 @@
 
                             {{-- Action Buttons --}}
                             <div class="d-flex justify-content-end gap-2 mt-4">
-                                <a
-                                    href="{{ $dashboardRoute }}"
-                                    class="btn btn-secondary"
-                                >
-                                    <i class='bx bx-x'></i> Batal
-                                </a>
                                 <button
                                     type="submit"
                                     class="btn btn-primary"

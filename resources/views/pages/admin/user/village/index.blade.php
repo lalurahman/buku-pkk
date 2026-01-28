@@ -12,7 +12,7 @@
             <div class="d-flex align-content-center flex-wrap gap-2">
                 <a
                     href="{{ route('admin.user.villages.export') }}"
-                    class="btn btn-outline-success"
+                    class="btn btn-outline-primary"
                 >
                     <i class='bx bxs-file-export me-2'></i> Export Excel
                 </a>
