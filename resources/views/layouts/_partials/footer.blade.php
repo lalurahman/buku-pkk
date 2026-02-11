@@ -6,7 +6,7 @@
                 <script>
                     document.write(new Date().getFullYear());
                 </script>
-                PKK Kab. Takalar | Dibuat oleh
+                (SIPENA) Sistem Pengelolaan Data PKK Kab. Takalar | Dibuat oleh
                 <a
                     href="https://lalurahman.web.app"
                     target="_blank"

@@ -20,7 +20,7 @@
         <div class="navbar-nav align-items-start">
             <div class="nav-item navbar-search-wrapper mb-0">
                 <span class="font-weight-bold text-uppercase">
-                    PKK Kab. Takalar
+                    SIPENA PKK Kab. Takalar
                 </span>
             </div>
         </div>
