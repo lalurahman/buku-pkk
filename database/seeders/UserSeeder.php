@@ -59,7 +59,7 @@ class UserSeeder extends Seeder
 
             foreach ($villages as $village) {
                 // Generate email unik
-                $baseEmail = 'desa.' . strtolower(str_replace(' ', '', $village->name));
+                $baseEmail = strtolower(str_replace(' ', '', $village->name));
                 $email = $baseEmail . '@gmail.com';
                 $counter = 1;
 
@@ -70,7 +70,7 @@ class UserSeeder extends Seeder
                 }
 
                 $userDesa = User::create([
-                    'name' => 'Desa ' . $village->name,
+                    'name' => $village->name,
                     'email' => $email,
                     'password' => Hash::make('1234567890'),
                 ]);

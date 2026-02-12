@@ -190,7 +190,7 @@
                         href="{{ route('admin.user.villages.index') }}"
                         class="menu-link"
                     >
-                        <div>Desa</div>
+                        <div>Desa/Kelurahan</div>
                     </a>
                 </li>
             </ul>
