@@ -15,8 +15,23 @@ class MemberRoleSeeder extends Seeder
     {
         $memberRoles = [
             ['name' => 'Ketua'],
-            ['name' => 'Sekretaris'],
+            ['name' => 'Ketua Bidang 1'],
+            ['name' => 'Ketua Bidang 2'],
+            ['name' => 'Ketua Bidang 3'],
+            ['name' => 'Ketua Bidang 4'],
+            ['name' => 'Ketua Pokja 1'],
+            ['name' => 'Ketua Pokja 2'],
+            ['name' => 'Ketua Pokja 3'],
+            ['name' => 'Ketua Pokja 4'],
+            ['name' => 'Sekretaris 1'],
+            ['name' => 'Sekretaris 2'],
+            ['name' => 'Sekretaris 3'],
+            ['name' => 'Sekretaris 4'],
             ['name' => 'Bendahara'],
+            ['name' => 'Staf Ahli 1'],
+            ['name' => 'Staf Ahli 2'],
+            ['name' => 'Staf Ahli 3'],
+            ['name' => 'Staf Ahli 4'],
             ['name' => 'Anggota'],
         ];
 
