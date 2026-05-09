@@ -48,7 +48,7 @@ class ActivityController extends Controller
         $villageId = $userHasVillage ? $userHasVillage->village_id : null;
 
         // Get village activities untuk village ini
-        $villageActivities = VillageActivity::with('subActivity')
+        $villageActivities = VillageActivity::with(['subActivity', 'galleries'])
             ->where('village_id', $villageId)
             ->whereHas('subActivity', function ($query) use ($id) {
                 $query->where('activity_id', $id);
@@ -89,5 +89,37 @@ class ActivityController extends Controller
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Gagal memperbarui status: ' . $th->getMessage());
         }
+    }
+
+    public function addGallery(Request $request, $activityId, $villageActivityId)
+    {
+        $request->validate([
+            'images' => 'required|array|min:1',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        try {
+            $villageActivity = VillageActivity::findOrFail($villageActivityId);
+
+            $this->galleryActivityService->uploadImages(
+                $request->file('images'),
+                $villageActivity->id
+            );
+
+            return redirect()->back()->with('success', 'Foto berhasil ditambahkan');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Gagal menambahkan foto: ' . $th->getMessage());
+        }
+    }
+
+    public function deleteGallery($activityId, $villageActivityId, $galleryId)
+    {
+        $deleted = $this->galleryActivityService->deleteImage((int) $galleryId);
+
+        if ($deleted) {
+            return redirect()->back()->with('success', 'Foto berhasil dihapus');
+        }
+
+        return redirect()->back()->with('error', 'Gagal menghapus foto');
     }
 }

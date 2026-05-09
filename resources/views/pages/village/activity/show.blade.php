@@ -258,6 +258,18 @@
                                                         >
                                                             <i class="bx bx-check-circle"></i> Sudah Selesai
                                                         </button>
+                                                        <button
+                                                            type="button"
+                                                            class="btn btn-sm btn-primary mt-1"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#galleryModal{{ $villageActivity->id }}"
+                                                        >
+                                                            <i class="bx bx-images"></i> Galeri
+                                                            @if ($villageActivity->galleries->count() > 0)
+                                                                <span
+                                                                    class="badge bg-white text-primary ms-1">{{ $villageActivity->galleries->count() }}</span>
+                                                            @endif
+                                                        </button>
                                                     @endif
                                                 </td>
                                             </tr>
@@ -346,6 +358,130 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <!-- Modal Galeri -->
+                                            @if ($villageActivity->status === 'completed')
+                                                <div
+                                                    class="modal fade"
+                                                    id="galleryModal{{ $villageActivity->id }}"
+                                                    tabindex="-1"
+                                                    aria-hidden="true"
+                                                >
+                                                    <div
+                                                        class="modal-dialog modal-lg"
+                                                        role="document"
+                                                    >
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">
+                                                                    <i class="bx bx-images me-2"></i>Galeri &mdash;
+                                                                    {{ $villageActivity->subActivity->title }}
+                                                                </h5>
+                                                                <button
+                                                                    type="button"
+                                                                    class="btn-close"
+                                                                    data-bs-dismiss="modal"
+                                                                    aria-label="Close"
+                                                                ></button>
+                                                            </div>
+                                                            <div class="modal-body">
+
+                                                                {{-- Existing gallery images --}}
+                                                                @if ($villageActivity->galleries->count() > 0)
+                                                                    <h6 class="mb-3">Foto Dokumentasi
+                                                                        ({{ $villageActivity->galleries->count() }} foto)
+                                                                    </h6>
+                                                                    <div class="row g-3 mb-4">
+                                                                        @foreach ($villageActivity->galleries as $gallery)
+                                                                            <div
+                                                                                class="col-md-3 col-6"
+                                                                                id="gallery-item-{{ $gallery->id }}"
+                                                                            >
+                                                                                <div class="card position-relative h-100">
+                                                                                    <img
+                                                                                        src="{{ Storage::url($gallery->image) }}"
+                                                                                        alt="Foto dokumentasi"
+                                                                                        class="card-img-top"
+                                                                                        style="height: 150px; object-fit: cover; cursor: pointer;"
+                                                                                        data-bs-toggle="modal"
+                                                                                        data-bs-target="#lightboxModal"
+                                                                                        data-src="{{ Storage::url($gallery->image) }}"
+                                                                                        onclick="openLightbox(this)"
+                                                                                    />
+                                                                                    <form
+                                                                                        action="{{ route('village.activities.village-activities.gallery.delete', [$activity->id, $villageActivity->id, $gallery->id]) }}"
+                                                                                        method="POST"
+                                                                                        onsubmit="return confirm('Hapus foto ini?')"
+                                                                                    >
+                                                                                        @csrf
+                                                                                        @method('DELETE')
+                                                                                        <button
+                                                                                            type="submit"
+                                                                                            class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1"
+                                                                                            style="z-index: 10;"
+                                                                                            title="Hapus foto"
+                                                                                        >
+                                                                                            <i class="bx bx-trash"></i>
+                                                                                        </button>
+                                                                                    </form>
+                                                                                </div>
+                                                                            </div>
+                                                                        @endforeach
+                                                                    </div>
+                                                                @else
+                                                                    <div class="alert alert-secondary mb-4">
+                                                                        <i class="bx bx-image me-1"></i> Belum ada foto
+                                                                        dokumentasi.
+                                                                    </div>
+                                                                @endif
+
+                                                                {{-- Upload new images --}}
+                                                                <hr>
+                                                                <h6 class="mb-3">Tambah / Ganti Foto</h6>
+                                                                <form
+                                                                    action="{{ route('village.activities.village-activities.gallery.add', [$activity->id, $villageActivity->id]) }}"
+                                                                    method="POST"
+                                                                    enctype="multipart/form-data"
+                                                                >
+                                                                    @csrf
+                                                                    <div class="mb-3">
+                                                                        <input
+                                                                            type="file"
+                                                                            class="form-control"
+                                                                            id="gallery_images_{{ $villageActivity->id }}"
+                                                                            name="images[]"
+                                                                            accept="image/*"
+                                                                            multiple
+                                                                            onchange="previewImages(event, 'gallery_preview_{{ $villageActivity->id }}')"
+                                                                        />
+                                                                        <small class="text-muted">Pilih satu atau beberapa
+                                                                            gambar (Max: 2MB per gambar)</small>
+                                                                    </div>
+
+                                                                    <div
+                                                                        id="gallery_preview_{{ $villageActivity->id }}"
+                                                                        class="row g-2 mb-3"
+                                                                    ></div>
+
+                                                                    <button
+                                                                        type="submit"
+                                                                        class="btn btn-primary"
+                                                                    >
+                                                                        <i class="bx bx-upload me-1"></i> Upload Foto
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button
+                                                                    type="button"
+                                                                    class="btn btn-label-secondary"
+                                                                    data-bs-dismiss="modal"
+                                                                >Tutup</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -360,8 +496,41 @@
     </div>
 @endsection
 
+{{-- Lightbox modal (shared, outside foreach) --}}
+<div
+    class="modal fade"
+    id="lightboxModal"
+    tabindex="-1"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-transparent border-0">
+            <div class="modal-body p-0 text-center">
+                <button
+                    type="button"
+                    class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                    style="z-index: 10;"
+                ></button>
+                <img
+                    id="lightboxImage"
+                    src=""
+                    alt="Preview"
+                    class="img-fluid rounded"
+                    style="max-height: 80vh;"
+                />
+            </div>
+        </div>
+    </div>
+</div>
+
 @push('scripts')
     <script>
+        function openLightbox(imgEl) {
+            document.getElementById('lightboxImage').src = imgEl.dataset.src;
+        }
+
         // Store selected files for each modal
         const filesMap = new Map();
 
