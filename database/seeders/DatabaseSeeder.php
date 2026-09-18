@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             TakalarRegionSeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
+            TakalarNewDistrictUserSeeder::class,
             MemberRoleSeeder::class,
             FunctionalPositionSeeder::class,
             SourceFundSeeder::class,
